@@ -99,6 +99,42 @@
             font-size: 1.2rem;
         }
         
+        /* Navigation */
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            gap: 10px;
+        }
+        
+        .category-btn {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .category-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .category-btn.active {
+            background-color: #00CED1;
+            color: white;
+        }
+        
         /* Main Content */
         .container {
             max-width: 1200px;
@@ -461,6 +497,131 @@
             color: white;
         }
         
+        /* Product Detail Modal */
+        .product-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1003;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .product-detail-modal.open {
+            display: flex;
+        }
+        
+        .product-detail-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-detail {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .product-detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .product-detail-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-detail-image img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .product-detail-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-detail-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .product-detail-brand {
+            color: #00CED1;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .product-detail-price {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .product-detail-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .product-detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .detail-buy-now-btn {
+            flex: 1;
+            padding: 12px;
+            background-color: #00CED1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .detail-add-to-cart {
+            width: 50px;
+            padding: 12px;
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .detail-add-to-cart:hover {
+            background-color: #00CED1;
+            color: white;
+        }
+        
         /* Custom Alert */
         .custom-alert {
             position: fixed;
@@ -545,6 +706,14 @@
             .add-to-cart {
                 width: 100%;
             }
+            
+            .product-detail-container {
+                flex-direction: column;
+            }
+            
+            .product-detail-image, .product-detail-info {
+                min-width: 100%;
+            }
         }
         
         @media (max-width: 480px) {
@@ -570,6 +739,12 @@
                 right: 10px;
                 top: 70px;
             }
+            
+            .categories {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -579,7 +754,7 @@
         <div class="header-container">
             <div class="logo">TokoOnline</div>
             <div class="search-bar">
-                <input type="text" placeholder="Cari produk...">
+                <input type="text" id="searchInput" placeholder="Cari produk...">
                 <button><i class="fas fa-search"></i></button>
             </div>
             <div class="user-actions">
@@ -591,6 +766,18 @@
         </div>
     </header>
 
+    <!-- Navigation -->
+    <nav>
+        <div class="categories">
+            <button class="category-btn active" data-category="all">Semua</button>
+            <button class="category-btn" data-category="kantong-plastik">Kantong Plastik</button>
+            <button class="category-btn" data-category="box">Box</button>
+            <button class="category-btn" data-category="makanan">Makanan</button>
+            <button class="category-btn" data-category="minuman">Minuman</button>
+            <button class="category-btn" data-category="bahan-masakan">Bahan Masakan</button>
+        </div>
+    </nav>
+
     <!-- Main Content -->
     <div class="container">
         <!-- Rekomendasi Section -->
@@ -599,127 +786,8 @@
             <a href="#">Lihat Lainnya &gt;</a>
         </div>
 
-        <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="PRONO XITA" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">PRONO XITA</div>
-                    <div class="product-name">Pilith Lokal PRONO XITA Pilith Lokal</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 10.719</span>
-                        <span class="original-price">Rp 39.260</span>
-                        <span class="discount">-68%</span>
-                    </div>
-                    <div class="free-item">Gratis Microphone</div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="1" data-product-name="PRONO XITA Pilith Lokal" data-product-price="10719">Beli</button>
-                        <button class="add-to-cart" data-product-id="1" data-product-name="PRONO XITA Pilith Lokal" data-product-price="10719">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Celana Pendek Olahraga" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">Stars</div>
-                    <div class="product-name">Celana Pendek Olahraga Pria Wanita Running Gym Sport...</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 49.999</span>
-                        <span class="discount">-52%</span>
-                    </div>
-                    <div class="free-item">Gratis Harga Terbaik</div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="2" data-product-name="Celana Pendek Olahraga" data-product-price="49999">Beli</button>
-                        <button class="add-to-cart" data-product-id="2" data-product-name="Celana Pendek Olahraga" data-product-price="49999">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Sweater Hoodie" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">Stars</div>
-                    <div class="product-name">Sweater Hoodie Jaket Basic Croptop Zipper Resleting Wanit...</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 7.968</span>
-                        <span class="original-price">Rp 38.000</span>
-                        <span class="discount">-79%</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="3" data-product-name="Sweater Hoodie Jaket Basic" data-product-price="7968">Beli</button>
-                        <button class="add-to-cart" data-product-id="3" data-product-name="Sweater Hoodie Jaket Basic" data-product-price="7968">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Speaker Bluetooth" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">PRONO XITA</div>
-                    <div class="product-name">Stars Speaker Bluetooth Super Bass 16DW Plus mic Karaoke -...</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 129.999</span>
-                        <span class="original-price">Rp 259.999</span>
-                        <span class="discount">-50%</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="4" data-product-name="Speaker Bluetooth Super Bass" data-product-price="129999">Beli</button>
-                        <button class="add-to-cart" data-product-id="4" data-product-name="Speaker Bluetooth Super Bass" data-product-price="129999">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Gelang Tangan" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">Stars</div>
-                    <div class="product-name">Gelang Tangan Titanium AB05 Stainless Steel Gaya Kore...</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 24.999</span>
-                        <span class="original-price">Rp 49.999</span>
-                        <span class="discount">-50%</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="5" data-product-name="Gelang Tangan Titanium" data-product-price="24999">Beli</button>
-                        <button class="add-to-cart" data-product-id="5" data-product-name="Gelang Tangan Titanium" data-product-price="24999">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="TWS 113 Pro" class="product-image">
-                <div class="product-info">
-                    <div class="product-brand">TWS 113 Pro</div>
-                    <div class="product-name">Wireless Earbuds with Charging Case -PP2-cvy_000</div>
-                    <div class="product-price">
-                        <span class="current-price">Rp 89.999</span>
-                        <span class="original-price">Rp 179.999</span>
-                        <span class="discount">-50%</span>
-                    </div>
-                    <div class="product-actions">
-                        <button class="buy-now-btn" data-product-id="6" data-product-name="TWS 113 Pro Wireless Earbuds" data-product-price="89999">Beli</button>
-                        <button class="add-to-cart" data-product-id="6" data-product-name="TWS 113 Pro Wireless Earbuds" data-product-price="89999">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded dynamically -->
         </div>
     </div>
 
@@ -754,7 +822,17 @@
         </div>
         <div class="form-buttons">
             <button class="cancel-btn" id="cancelOrder">Batal</button>
-            <button class="submit-btn" id="submitOrder">Pesan Sekarang</button>
+            <button class="submit-btn" id="submitOrder">Kirim ke WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="product-detail-modal" id="productDetailModal">
+        <div class="product-detail-content">
+            <span class="close-detail" id="closeDetail">&times;</span>
+            <div class="product-detail-container" id="productDetailContainer">
+                <!-- Product detail will be loaded here -->
+            </div>
         </div>
     </div>
 
@@ -765,9 +843,105 @@
     </div>
 
     <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "PRONO XITA Pilith Lokal",
+                brand: "PRONO XITA",
+                price: 10719,
+                originalPrice: 39260,
+                discount: 68,
+                image: "https://via.placeholder.com/300",
+                category: "bahan-masakan",
+                description: "PRONO XITA adalah produk lokal berkualitas tinggi. Didesain khusus untuk memberikan pengalaman terbaik dengan harga terjangkau. Dapatkan sekarang dan nikmati manfaatnya!",
+                freeItem: "Gratis Microphone"
+            },
+            {
+                id: 2,
+                name: "Celana Pendek Olahraga Pria Wanita",
+                brand: "Stars",
+                price: 49999,
+                originalPrice: 104999,
+                discount: 52,
+                image: "https://via.placeholder.com/300",
+                category: "makanan",
+                description: "Celana pendek olahraga yang nyaman untuk berbagai aktivitas seperti running, gym, dan olahraga lainnya. Terbuat dari bahan yang menyerap keringat dan elastis untuk kenyamanan maksimal.",
+                freeItem: "Gratis Harga Terbaik"
+            },
+            {
+                id: 3,
+                name: "Sweater Hoodie Jaket Basic Croptop",
+                brand: "Stars",
+                price: 7968,
+                originalPrice: 38000,
+                discount: 79,
+                image: "https://via.placeholder.com/300",
+                category: "minuman",
+                description: "Sweater hoodie dengan desain trendy dan nyaman dipakai. Dilengkapi dengan resleting dan tersedia dalam berbagai warna. Cocok untuk gaya kasual sehari-hari."
+            },
+            {
+                id: 4,
+                name: "Speaker Bluetooth Super Bass 16DW",
+                brand: "PRONO XITA",
+                price: 129999,
+                originalPrice: 259999,
+                discount: 50,
+                image: "https://via.placeholder.com/300",
+                category: "box",
+                description: "Speaker Bluetooth dengan kualitas suara super bass. Dilengkapi dengan microphone untuk karaoke. Baterai tahan lama hingga 12 jam. Portable dan mudah dibawa kemana saja."
+            },
+            {
+                id: 5,
+                name: "Gelang Tangan Titanium AB05",
+                brand: "Stars",
+                price: 24999,
+                originalPrice: 49999,
+                discount: 50,
+                image: "https://via.placeholder.com/300",
+                category: "kantong-plastik",
+                description: "Gelang tangan titanium dengan desain stylish dan elegan. Terbuat dari stainless steel anti karat. Cocok untuk pria dan wanita yang ingin tampil trendy."
+            },
+            {
+                id: 6,
+                name: "TWS 113 Pro Wireless Earbuds",
+                brand: "TWS 113 Pro",
+                price: 89999,
+                originalPrice: 179999,
+                discount: 50,
+                image: "https://via.placeholder.com/300",
+                category: "box",
+                description: "Wireless earbuds dengan kualitas suara jernih dan bass yang dalam. Dilengkapi dengan charging case untuk pengisian daya hingga 24 jam. Desain ergonomis yang nyaman dipakai."
+            },
+            {
+                id: 7,
+                name: "Lunchbox Bento Kotak Makan",
+                brand: "FoodBox",
+                price: 45000,
+                originalPrice: 75000,
+                discount: 40,
+                image: "https://via.placeholder.com/300",
+                category: "box",
+                description: "Lunchbox bento dengan kompartemen terpisah untuk menyimpan berbagai jenis makanan. Praktis dan mudah dibawa. Material aman untuk makanan dan mudah dibersihkan."
+            },
+            {
+                id: 8,
+                name: "Kantong Plastik Roll Isi Ulang",
+                brand: "PlastikPlus",
+                price: 15000,
+                originalPrice: 20000,
+                discount: 25,
+                image: "https://via.placeholder.com/300",
+                category: "kantong-plastik",
+                description: "Kantong plastik roll isi ulang dengan kualitas tebal dan kuat. Cocok untuk kebutuhan sehari-hari di dapur, toko, atau tempat usaha."
+            }
+        ];
+
         // Initialize cart
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
+        let currentCategory = 'all';
+        let searchQuery = '';
+
         // DOM Elements
         const cartIcon = document.getElementById('cartIcon');
         const cartCount = document.getElementById('cartCount');
@@ -782,8 +956,12 @@
         const customerAddress = document.getElementById('customerAddress');
         const submitOrder = document.getElementById('submitOrder');
         const cancelOrder = document.getElementById('cancelOrder');
-        const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        const buyNowButtons = document.querySelectorAll('.buy-now-btn');
+        const productsGrid = document.getElementById('productsGrid');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const searchInput = document.getElementById('searchInput');
+        const productDetailModal = document.getElementById('productDetailModal');
+        const productDetailContainer = document.getElementById('productDetailContainer');
+        const closeDetail = document.getElementById('closeDetail');
         const customAlert = document.getElementById('customAlert');
         const alertIcon = document.getElementById('alertIcon');
         const alertMessage = document.getElementById('alertMessage');
@@ -941,47 +1119,149 @@
             showAlert(`${productName} telah ditambahkan ke keranjang!`, 'success');
         }
         
-        // Add event listeners to add to cart buttons
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the product card click event
-                
-                const productId = button.getAttribute('data-product-id');
-                const productName = button.getAttribute('data-product-name');
-                const productPrice = parseInt(button.getAttribute('data-product-price'));
-                
-                addToCart(productId, productName, productPrice);
+        // Display products based on category and search query
+        function displayProducts() {
+            productsGrid.innerHTML = '';
+            
+            const filteredProducts = products.filter(product => {
+                const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+                const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                     product.brand.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
             });
-        });
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '<div class="empty-cart" style="grid-column: 1 / -1; text-align: center; padding: 40px;">Tidak ada produk yang ditemukan</div>';
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product-card');
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">
+                            <span class="current-price">Rp ${product.price.toLocaleString('id-ID')}</span>
+                            ${product.originalPrice ? `<span class="original-price">Rp ${product.originalPrice.toLocaleString('id-ID')}</span>` : ''}
+                            ${product.discount ? `<span class="discount">-${product.discount}%</span>` : ''}
+                        </div>
+                        ${product.freeItem ? `<div class="free-item">${product.freeItem}</div>` : ''}
+                        <div class="product-actions">
+                            <button class="buy-now-btn" data-product-id="${product.id}">Beli</button>
+                            <button class="add-to-cart" data-product-id="${product.id}">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productElement);
+                
+                // Add event listener to product card for detail view
+                productElement.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('buy-now-btn') && !e.target.classList.contains('add-to-cart') && 
+                        !e.target.parentElement.classList.contains('add-to-cart')) {
+                        showProductDetail(product);
+                    }
+                });
+            });
+            
+            // Add event listeners to add to cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const productId = button.getAttribute('data-product-id');
+                    const product = products.find(p => p.id == productId);
+                    addToCart(product.id, product.name, product.price, product.image);
+                });
+            });
+            
+            // Add event listeners to buy now buttons
+            document.querySelectorAll('.buy-now-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const productId = button.getAttribute('data-product-id');
+                    const product = products.find(p => p.id == productId);
+                    
+                    // Clear cart and add only this product
+                    cart = [{
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: 1
+                    }];
+                    
+                    saveCart();
+                    updateCartDisplay();
+                    
+                    // Open checkout form
+                    orderForm.classList.add('open');
+                    overlay.classList.add('open');
+                    
+                    showAlert(`Beralih ke pembayaran untuk ${product.name}`, 'info');
+                });
+            });
+        }
         
-        // Add event listeners to buy now buttons
-        buyNowButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the product card click event
-                
-                const productId = button.getAttribute('data-product-id');
-                const productName = button.getAttribute('data-product-name');
-                const productPrice = parseInt(button.getAttribute('data-product-price'));
-                
+        // Show product detail
+        function showProductDetail(product) {
+            productDetailContainer.innerHTML = `
+                <div class="product-detail-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="product-detail-info">
+                    <h2 class="product-detail-name">${product.name}</h2>
+                    <div class="product-detail-brand">${product.brand}</div>
+                    <div class="product-detail-price">
+                        <span class="current-price">Rp ${product.price.toLocaleString('id-ID')}</span>
+                        ${product.originalPrice ? `<span class="original-price">Rp ${product.originalPrice.toLocaleString('id-ID')}</span>` : ''}
+                        ${product.discount ? `<span class="discount">-${product.discount}%</span>` : ''}
+                    </div>
+                    ${product.freeItem ? `<div class="free-item">${product.freeItem}</div>` : ''}
+                    <div class="product-detail-description">
+                        <p>${product.description}</p>
+                    </div>
+                    <div class="product-detail-actions">
+                        <button class="detail-buy-now-btn" id="detailBuyNow" data-product-id="${product.id}">Beli Sekarang</button>
+                        <button class="detail-add-to-cart" id="detailAddToCart" data-product-id="${product.id}">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            productDetailModal.classList.add('open');
+            overlay.classList.add('open');
+            
+            // Add event listeners to detail buttons
+            document.getElementById('detailAddToCart').addEventListener('click', () => {
+                addToCart(product.id, product.name, product.price, product.image);
+            });
+            
+            document.getElementById('detailBuyNow').addEventListener('click', () => {
                 // Clear cart and add only this product
                 cart = [{
-                    id: productId,
-                    name: productName,
-                    price: productPrice,
-                    image: "https://via.placeholder.com/200",
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
                     quantity: 1
                 }];
                 
                 saveCart();
                 updateCartDisplay();
                 
-                // Open checkout form
+                // Close detail modal and open checkout form
+                productDetailModal.classList.remove('open');
                 orderForm.classList.add('open');
-                overlay.classList.add('open');
                 
-                showAlert(`Beralih ke pembayaran untuk ${productName}`, 'info');
+                showAlert(`Beralih ke pembayaran untuk ${product.name}`, 'info');
             });
-        });
+        }
         
         // Toggle cart sidebar
         cartIcon.addEventListener('click', () => {
@@ -994,10 +1274,32 @@
             overlay.classList.remove('open');
         });
         
+        closeDetail.addEventListener('click', () => {
+            productDetailModal.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+        
         overlay.addEventListener('click', () => {
             cartSidebar.classList.remove('open');
             overlay.classList.remove('open');
             orderForm.classList.remove('open');
+            productDetailModal.classList.remove('open');
+        });
+        
+        // Category filter functionality
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentCategory = button.getAttribute('data-category');
+                displayProducts();
+            });
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            searchQuery = searchInput.value;
+            displayProducts();
         });
         
         // Checkout functionality
@@ -1011,7 +1313,7 @@
             overlay.classList.add('open');
         });
         
-        // Submit order
+        // Submit order to WhatsApp
         submitOrder.addEventListener('click', () => {
             // Validate form
             if (!customerName.value || !customerAddress.value) {
@@ -1019,8 +1321,27 @@
                 return;
             }
             
-            // Simulate order processing
-            showAlert('Pesanan berhasil dibuat! Terima kasih telah berbelanja.', 'success');
+            // Format WhatsApp message
+            let message = `Halo, saya ingin memesan produk berikut:%0A%0A`;
+            message += `*Nama:* ${customerName.value}%0A`;
+            message += `*Alamat:* ${customerAddress.value}%0A%0A`;
+            message += `*Daftar Pesanan:*%0A`;
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `- ${item.name} (${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}) = Rp ${itemTotal.toLocaleString('id-ID')}%0A`;
+            });
+            
+            message += `%0A*Total: Rp ${total.toLocaleString('id-ID')}*%0A%0A`;
+            message += `Terima kasih!`;
+            
+            // Ganti dengan nomor WhatsApp Anda di sini (dalam format internasional tanpa + dan spasi)
+            const phoneNumber = "6281234567890"; // Contoh: 6281234567890
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
             
             // Clear cart
             cart = [];
@@ -1034,7 +1355,8 @@
             // Close modals
             orderForm.classList.remove('open');
             overlay.classList.remove('open');
-            cartSidebar.classList.remove('open');
+            
+            showAlert('Pesanan telah dikirim melalui WhatsApp!', 'success');
         });
         
         cancelOrder.addEventListener('click', () => {
@@ -1042,9 +1364,10 @@
             overlay.classList.remove('open');
         });
         
-        // Initialize cart on page load
+        // Initialize page
         updateCartCount();
         updateCartDisplay();
+        displayProducts();
     </script>
 </body>
 </html>
