@@ -499,6 +499,7 @@
             color: #999;
         }
         
+        /* Overlay */
         .overlay {
             display: none;
             position: fixed;
@@ -508,12 +509,15 @@
             height: 100%;
             background-color: rgba(0,0,0,0.5);
             z-index: 1000;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
         }
         
         .overlay.open {
             display: block;
         }
         
+        /* Order Form */
         .order-form {
             display: none;
             position: fixed;
@@ -586,6 +590,7 @@
             color: white;
         }
         
+        /* Product Detail Modal */
         .product-detail-modal {
             display: none;
             position: fixed;
@@ -710,6 +715,7 @@
             color: white;
         }
         
+        /* Custom Alert */
         .custom-alert {
             position: fixed;
             top: 20px;
@@ -749,6 +755,7 @@
             font-size: 1.2rem;
         }
         
+        /* Responsive Design */
         @media (max-width: 768px) {
             .header-container {
                 flex-wrap: wrap;
@@ -989,6 +996,17 @@
     </div>
 
     <script>
+        // Menonaktifkan inspect element
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+            e.preventDefault();
+          }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             // Sample product data
             const products = [
@@ -1387,7 +1405,6 @@
                     button.classList.add('active');
                     currentCategory = button.getAttribute('data-category');
                     
-                    // Saat kategori diubah, bersihkan pencarian
                     searchInput.value = '';
                     searchQuery = '';
                     currentPage = 1;
@@ -1406,16 +1423,12 @@
                 categoriesToggle.classList.toggle('open');
             });
             
-            // ===== PERUBAHAN DIMULAI DI SINI =====
             searchInput.addEventListener('input', () => {
                 searchQuery = searchInput.value;
                 currentPage = 1;
 
-                // Saat pengguna melakukan pencarian,
-                // kategori otomatis diatur ke 'Semua' untuk melakukan pencarian global.
                 currentCategory = 'all';
                 
-                // Perbarui tampilan tombol kategori agar sesuai
                 categoryButtons.forEach(btn => {
                     btn.classList.remove('active');
                     if (btn.getAttribute('data-category') === 'all') {
@@ -1425,7 +1438,6 @@
                 
                 displayProducts();
             });
-            // ===== PERUBAHAN BERAKHIR DI SINI =====
             
             checkoutBtn.addEventListener('click', () => {
                 if (cart.length === 0) {
