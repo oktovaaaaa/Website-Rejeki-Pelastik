@@ -485,7 +485,7 @@
                 message += `%0A*Total: Rp ${total.toLocaleString('id-ID')}*%0A%0A`;
                 message += `Terima kasih!`;
                 
-                const phoneNumber = "62881080811110";
+                const phoneNumber = "6281262007406";
                 
                 window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
                 
