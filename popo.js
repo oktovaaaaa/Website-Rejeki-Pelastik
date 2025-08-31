@@ -16,7 +16,7 @@
                 {id: 1, name: " PaperLunch Box isi 50 pcs", brand: "P K", price: 45000, image: "makanan/paper lunch box 160x90x50mm.jpg", category: "makanan", description: "Paper Lunch Box warna Cokelat Size 160 x 90 x 50."},
                 {id: 2, name: "Poper Bowl 650 ml + tutup", brand: "Nesto", price: 35000, image: "makanan/nesto poper bowl 650ml, 25pcs.jpg", category: "makanan", description: "Poper bowl 650 ml isi 25 pcs berwarna putih."},
                 {id: 3, name: "Kantong Plastik cap Aladin Uk: 15,19,24,27,32", brand: "Cap Aladin", price: 12000, image: "plastik//cap aladin sz24 cm.jpg", category: "kantong-plastik",},
-                {id: 4, name: "Cup premium U Cup", brand: "U Cup", price: 75000, image: "minuman//cup dhivers isi 50pcs.jpg", category: "minuman", description: "Cup minuman transparan isi 50 pcs berbahan premium."},
+                {id: 4, name: "Cup premium U Cup", brand: "U Cup", price: 18000, image: "minuman//cup dhivers isi 50pcs.jpg", category: "minuman", description: "Cup minuman transparan isi 50 pcs berbahan premium."},
                 {id: 5, name: "Max Creamer satuan", brand: "MaxCreamer", price: 41000, image: "bahan masakan//MaxCreamer satuan.jpg", category: "bahan-masakan", description: "MaxCreamer satuan untuk cream"},
                 {id: 6, name: "Max Creamer 1 karton", brand: "MaxCreamer", price: 936000, image: "bahan masakan//MaxCreamer kotak.jpg", category: "bahan-masakan", description: "MaxCreamer per karton isi 24 kotak untuk membuat cream"},               
                 {id: 7, name: "Susu Evaporasi 1 karton", brand: "Sunbay", price: 748000, image: "bahan masakan//SunbayEvaporated.jpg", category: "bahan-masakan", description: "Susu Evaporated isi 48"},
