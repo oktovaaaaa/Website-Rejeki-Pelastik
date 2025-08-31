@@ -16,7 +16,9 @@
                 {id: 1, name: " PaperLunch Box isi 50 pcs", brand: "P K", price: 10719, image: "makanan/paper lunch box 160x90x50mm.jpg", category: "makanan", description: "Paper Lunch Box warna Cokelat Size 160 x 90 x 50."},
                 {id: 2, name: "Poper Bowl 650 ml", brand: "Nesto", price: 49999, image: "makanan/nesto poper bowl 650ml, 25pcs.jpg", category: "makanan", description: "Poper bowl 650 ml isi 25 pcs berwarna putih."},
                 {id: 3, name: "Kantong Plastik Roll Isi Ulang", brand: "PlastikPlus", price: 15000, image: "plastik//cap aladin sz24 cm.jpg", category: "kantong-plastik",},
-                {id: 4, name: "Cup premium U Cup", brand: "Cup Minuman isi 50 pcs", price: 75000, image: "minuman//cup dhivers isi 50pcs.jpg", category: "minuman", description: "Cup minuman transparan isi 50 pcs berbahan premium."},
+                {id: 4, name: "Cup premium U Cup", brand: "U Cup", price: 75000, image: "minuman//cup dhivers isi 50pcs.jpg", category: "minuman", description: "Cup minuman transparan isi 50 pcs berbahan premium."},
+                {id: 5, name: "Max Creamer satuan", brand: "MaxCreamer", price: 41000, image: "bahan masakan//MaxCreamer satuan.jpg", category: "bahan-masakan", description: "MaxCreamer satuan untuk cream"},
+                {id: 6, name: "Max Creamer 1 karton", brand: "MaxCreamer", price: 936000, image: "bahan masakan//MaxCreamer kotak.jpg", category: "bahan-masakan", description: "MaxCreamer per karton isi 24 kotak untuk membuat cream"},
             ];
 
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
